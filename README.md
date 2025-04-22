@@ -21,9 +21,9 @@ This project is a simple Streamlit web app that converts natural language questi
 ---
 
 ## ⚙️ Setup Instructions
-git clone https://github.com/your-username/text-to-sql-app.git
-cd text-to-sql-app
-pip install -r requirements.txt
+- git clone https://github.com/your-username/text-to-sql-app.git
+- cd text-to-sql-app
+- pip install -r requirements.txt
 
 ## Add your Gemini API key in a .env file:
 GOOGLE_API_KEY=your_api_key_here
@@ -32,9 +32,9 @@ GOOGLE_API_KEY=your_api_key_here
 streamlit run app.py
 
 ## 📦 Folder Structure
-├── app.py
-├── mysql.py
-├── MySQL
-├── .env
-├── requirements.txt
-└── README.md
+- ├── app.py
+- ├── mysql.py
+- ├── MySQL
+- ├── .env
+- ├── requirements.txt
+- └── README.md
