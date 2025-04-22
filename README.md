@@ -33,8 +33,8 @@ streamlit run app.py
 
 ## 📦 Folder Structure
 ├── app.py
-├── sql.py
-├── student.db / MySQL
+├── mysql.py
+├── MySQL
 ├── .env
 ├── requirements.txt
 └── README.md
