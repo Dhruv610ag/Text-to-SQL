@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 import streamlit as st
 import os
-import sqlite3
+import mysql.connector
 import google.generativeai as genai
 
 # Load environment variables
@@ -13,14 +13,19 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Function to call Gemini and get SQL query
 def get_gemini_response(question, prompt):
-    model = genai.GenerativeModel('gemini-2.0-flash')  # or gemini-pro, based on what’s available
+    model = genai.GenerativeModel('gemini-2.0-flash')  # or gemini-pro
     response = model.generate_content([prompt[0], question])
     return response.text.strip()
 
-# Function to read and return rows from SQLite
-def read_sql_query(sql, db):
+# Function to read and return rows from MySQL
+def read_sql_query(sql):
     try:
-        conn = sqlite3.connect(db)
+        conn = mysql.connector.connect(
+            host=os.getenv("MYSQL_HOST"),
+            user=os.getenv("MYSQL_USER"),
+            password=os.getenv("MYSQL_PASSWORD"),
+            database=os.getenv("MYSQL_DATABASE")
+        )
         curr = conn.cursor()
         curr.execute(sql)
         rows = curr.fetchall()
@@ -33,7 +38,7 @@ def read_sql_query(sql, db):
 # SQL-to-text prompt for Gemini
 prompt = ["""
 You are an expert in converting English questions to SQL queries.
-The SQL database is named student.db and the STUDENT table has these columns: NAME, CLASS, SECTION, MARKS.
+The MySQL database contains a STUDENT table with these columns: NAME, CLASS, SECTION, MARKS.
 
 Examples:
 Q: How many entries are present?
@@ -57,7 +62,7 @@ if st.button("Ask"):
     st.code(sql_query, language='sql')
 
     # Execute and show results
-    result = read_sql_query(sql_query, "student.db")
+    result = read_sql_query(sql_query)
     st.subheader("📊 Query Results:")
     if result:
         for row in result:
